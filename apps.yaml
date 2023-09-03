@@ -192,3 +192,11 @@ patio_pinger:
   entity: light.patio_light_string
   ping_entity: button.node_12_ping
 
+
+patio_snapcast:
+  module: snapcast
+  class: Snapcast
+  snapcast_entity: media_player.snapcast_client_patio
+  switch_entity: switch.patio_stereo
+  volume_entity: input_number.patio_volume
+
