@@ -26,6 +26,10 @@ sleep:
       - service: light/turn_on
         entity_id: light.patio_light_string
         brightness: 25
+      - service: input_number/set_value
+        entity_id: input_number.patio_volume
+        value: 0.0
+
   turned_off:
     turn_on:
       - input_boolean.auto_office_fan
