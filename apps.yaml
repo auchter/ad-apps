@@ -1,0 +1,182 @@
+---
+stereolights:
+  module: music
+  class: MusicLightBar
+  
+sleep:
+  module: group_control
+  class: GroupControl 
+  control: input_boolean.sleep
+  turned_on:
+    turn_off:
+      - input_boolean.auto_office_fan
+      - input_boolean.auto_living_room_fan
+      - input_boolean.auto_bedroom_fan
+      - fan.office_fan
+      - fan.living_room_fan
+      - input_boolean.auto_main_interior_lights
+      - input_boolean.auto_bedroom_lights 
+      - light.steampunk_lamp
+      - light.main_interior_lights
+      - light.office_lights
+      - light.wled
+    call_service:
+      - service: media_player/media_pause
+        entity_id: media_player.stereo
+      - service: light/turn_on
+        entity_id: light.patio_light_string
+        brightness: 25
+  turned_off:
+    turn_on:
+      - input_boolean.auto_office_fan
+      - input_boolean.auto_living_room_fan
+      - input_boolean.auto_bedroom_fan
+      - input_boolean.auto_main_interior_lights
+      - input_boolean.auto_bedroom_lights 
+
+square_lamp_1:
+  module: group_control
+  class: SlaveLights
+  master: light.square_lamp_1a
+  slaves:
+    - entity: light.square_lamp_1b
+    - entity: light.square_lamp_1c
+      min_kelvin: 2400
+      max_kelvin: 3200
+
+square_lamp_2:
+  module: group_control
+  class: SlaveLights
+  master: light.square_lamp_2a
+  slaves:
+    - entity: light.square_lamp_2b
+    - entity: light.square_lamp_2c
+      min_kelvin: 2400
+      max_kelvin: 3200
+
+moon_lights:
+  module: moon_lights
+  class: MoonLights
+  lifx_entities:
+    - light.front_door
+    - light.patio_door
+  phase_colors:
+    new_moon: [0, 100]
+    waxing_crescent: [45, 100]
+    first_quarter: [90, 100]
+    waxing_gibbous: [135, 100]
+    full_moon: [180, 100]
+    waning_gibbous: [225, 100]
+    last_quarter: [270, 100]
+    waning_crescent: [315, 100]
+
+front_door:
+  module: patio_light
+  class: SunBasedLights
+  light_entity: light.front_door
+
+patio_door:
+  module: patio_light
+  class: SunBasedLights
+  light_entity: light.patio_door
+
+light_string:
+  module: patio_light
+  class: SunBasedLights
+  light_entity: light.patio_light_string
+  presence_entity: person.michael
+  enable: input_boolean.patio_light_string_automation
+
+auto_office_fan:
+  module: fan_control
+  class: FanControl
+  fan_entity: fan.office_fan
+  enable: input_boolean.auto_office_fan
+  presence_entity: person.michael
+  motion_entity: binary_sensor.office_sensor_home_security_motion_detection
+  timeout: 30
+
+auto_living_room_fan:
+  module: fan_control
+  class: FanControl
+  fan_entity: fan.living_room_fan
+  enable: input_boolean.auto_living_room_fan
+  presence_entity: person.michael
+  motion_entity: binary_sensor.living_room_sensor_home_security_motion_detection
+  timeout: 30
+
+auto_bedroom_fan:
+  module: fan_control
+  class: FanControl
+  fan_entity: fan.bedroom_fan
+  enable: input_boolean.auto_bedroom_fan
+  presence_entity: person.michael
+  motion_entity: binary_sensor.bedroom_sensor_home_security_motion_detection
+  timeout: 30
+
+dewpoint_living_room:
+  module: dewpoint
+  class: Dewpoint
+  temperature: sensor.living_room_sensor_air_temperature
+  humidity: sensor.living_room_sensor_humidity
+  sensor: sensor.living_room_dewpoint
+  friendly_name: Living Room Dewpoint
+
+dewpoint_bedroom:
+  module: dewpoint
+  class: Dewpoint
+  temperature: sensor.bedroom_sensor_air_temperature
+  humidity: sensor.bedroom_sensor_humidity
+  sensor: sensor.bedroom_dewpoint
+  friendly_name: Bedroom Dewpoint
+
+dewpoint_office:
+  module: dewpoint
+  class: Dewpoint
+  temperature: sensor.office_sensor_air_temperature
+  humidity: sensor.office_sensor_humidity
+  sensor: sensor.office_dewpoint
+  friendly_name: Office Dewpoint
+
+dewpoint_outdoor:
+  module: dewpoint
+  class: Dewpoint
+  temperature: sensor.outdoor_air_temperature
+  humidity: sensor.outdoor_humidity
+  sensor: sensor.outdoor_dewpoint
+  friendly_name: Outdoor Dewpoint
+
+
+auto_main_light:
+  module: light_control
+  class: LightControl
+  presence_entity: person.michael
+  motion_entity: binary_sensor.living_room_sensor_home_security_motion_detection
+  motion_timeout: 180
+  illuminance_entity: sensor.living_room_filtered_illuminance
+  illuminance_threshold: 50 
+  light_entity: light.main_interior_lights
+  enable: input_boolean.auto_main_interior_lights
+
+auto_bedroom_light:
+  module: light_control
+  class: LightControl
+  presence_entity: person.michael
+  motion_entity: binary_sensor.bedroom_sensor_home_security_motion_detection
+  motion_timeout: 15
+  illuminance_entity: sensor.bedroom_filtered_illuminance
+  illuminance_threshold: 30
+  light_entity: light.steampunk_lamp
+  enable: input_boolean.auto_bedroom_lights
+
+auto_office_light:
+  module: light_control
+  class: LightControl
+  presence_entity: person.michael
+  motion_entity: binary_sensor.office_sensor_home_security_motion_detection
+  motion_timeout: 45
+  illuminance_entity: sensor.office_filtered_illuminance
+  illuminance_threshold: 60
+  light_entity: light.office_lights
+  enable: input_boolean.auto_office_lights
+
