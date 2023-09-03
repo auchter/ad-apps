@@ -180,3 +180,15 @@ auto_office_light:
   light_entity: light.office_lights
   enable: input_boolean.auto_office_lights
 
+steampunk_pinger:
+  module: zwave
+  class: ZwavePinger
+  entity: light.steampunk_lamp
+  ping_entity: button.plug_in_smart_dimmer_ping
+
+patio_pinger:
+  module: zwave
+  class: ZwavePinger
+  entity: light.patio_light_string
+  ping_entity: button.node_12_ping
+
