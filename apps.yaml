@@ -18,6 +18,7 @@ sleep:
       - input_boolean.auto_bedroom_lights 
       - light.steampunk_lamp
       - light.main_interior_lights
+      - input_boolean.auto_office_lights
       - light.office_lights
       - light.wled
     call_service:
@@ -37,6 +38,7 @@ sleep:
       - input_boolean.auto_bedroom_fan
       - input_boolean.auto_main_interior_lights
       - input_boolean.auto_bedroom_lights 
+      - input_boolean.auto_office_lights
 
 square_lamp_1:
   module: group_control
