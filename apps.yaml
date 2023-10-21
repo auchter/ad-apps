@@ -101,6 +101,8 @@ auto_office_fan:
   presence_entity: person.michael
   motion_entity: binary_sensor.office_sensor_home_security_motion_detection
   timeout: 30
+  temperature_entity: sensor.office_sensor_air_temperature
+  temperature_threshold: 75
 
 auto_living_room_fan:
   module: fan_control
@@ -110,6 +112,8 @@ auto_living_room_fan:
   presence_entity: person.michael
   motion_entity: binary_sensor.living_room_sensor_home_security_motion_detection
   timeout: 30
+  temperature_entity: sensor.living_room_sensor_air_temperature
+  temperature_threshold: 75
 
 auto_bedroom_fan:
   module: fan_control
@@ -119,6 +123,8 @@ auto_bedroom_fan:
   presence_entity: person.michael
   motion_entity: binary_sensor.bedroom_sensor_home_security_motion_detection
   timeout: 30
+  temperature_entity: sensor.bedroom_sensor_air_temperature
+  temperature_threshold: 75
 
 dewpoint_living_room:
   module: dewpoint
