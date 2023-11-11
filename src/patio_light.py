@@ -26,29 +26,18 @@ class SunBasedLights(hass.Hass):
         self.entity = self.args.get('light_entity')
 
         self.dark_outside = False
-        self.turned_off = False
 
         self.enable = True
         if 'enable' in self.args:
-            self.log('enable present')
             self.listen_state(self.enable_cb, self.args.get('enable'), immediate=True)
 
         self.at_home = True
         if 'presence_entity' in self.args:
-            self.log('presence based')
             self.listen_state(self.presence, self.args.get('presence_entity'), duration=10, immediate=True)
 
         self.listen_state(self.sun_elevation, 'sun.sun', attribute='elevation', immediate=True)
-        self.listen_state(self.light_changed, self.entity)
-
-    def light_changed(self, entity, attribute, old, new, *kwargs):
-        self.log(f'light_turned_off!')
-        self.turned_off = True if new == 'off' else False
 
     def sun_elevation(self, entity, attribute, old, new, *kwargs):
-        if new > self.elevation_threshold:
-            self.turned_off = False
-
         self.dark_outside = new < self.elevation_threshold
         self.log(f'dark_outside: {self.dark_outside}, elevation: {new}')
         self.update_light()
@@ -67,7 +56,7 @@ class SunBasedLights(hass.Hass):
         if not self.enable:
             return
 
-        light_on = self.dark_outside and self.at_home and not self.turned_off
+        light_on = self.dark_outside and self.at_home
         light_state = self.get_state(self.entity) == 'on'
         self.log(f'light_on: {light_on}, cur: {light_state}')
         if light_on == light_state:
