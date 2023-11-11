@@ -29,7 +29,7 @@ class Snapcast(hass.Hass):
             self.power_off_timer = self.run_in(self.power_off, delay=30*60)
         else:
             if self.get_state(self.switch_entity) == 'off':
-                self.call_service('switch/turn_on', entity_id=self.switch_entity)
+                self.power_on()
             if self.power_off_timer is not None:
                 self.log("cancelling power off timer")
                 self.cancel_timer(self.power_off_timer, silent=True)
@@ -40,7 +40,12 @@ class Snapcast(hass.Hass):
         self.log(f'scvolume cb, old: {old}, new: {new}, t: {type(new)}')
         self.call_service('input_number/set_value', entity_id=self.volume_entity, value=new * 100.0)
 
+    def power_on(self):
+        self.log('power on')
+        self.call_service('switch/turn_on', entity_id=self.switch_entity)
+        self.call_service('media_player/volume_mute', entity_id=self.snapcast_entity, is_volume_muted=False)
+
     def power_off(self, *kwargs):
         self.log('power off')
+        self.call_service('media_player/volume_mute', entity_id=self.snapcast_entity, is_volume_muted=True)
         self.call_service('switch/turn_off', entity_id=self.switch_entity)
-
