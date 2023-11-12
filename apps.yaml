@@ -212,3 +212,56 @@ patio_snapcast:
   switch_entity: switch.patio_stereo
   volume_entity: input_number.patio_volume
 
+vacuum:
+  module: vacuum
+  class: Vacuum
+  vacuum_entity: vacuum.robot_vacuum
+  button_entity: input_button.run_vacuum
+  presence_entity: person.michael
+  areas:
+    bedroom:
+      name: Bedroom
+      segment: 1
+      enable: input_boolean.vacuum_bedroom
+      dt: input_datetime.vacuumed_bedroom
+    bathroom:
+      name: Bathroom
+      segment: 3
+      enable: input_boolean.vacuum_bathroom
+      dt: input_datetime.vacuumed_bathroom
+    kitchen:
+      name: Kitchen
+      segment: 6
+      enable: input_boolean.vacuum_kitchen
+      dt: input_datetime.vacuumed_kitchen
+    office:
+      name: Office
+      segment: 16
+      enable: input_boolean.vacuum_office
+      dt: input_datetime.vacuumed_office
+    hallway:
+      name: Hallway
+      segment: 17
+      enable: input_boolean.vacuum_hallway
+      dt: input_datetime.vacuumed_hallway
+    living_room:
+      name: Living Room
+      segment: 18
+      enable: input_boolean.vacuum_living_room
+      dt: input_datetime.vacuumed_living_room
+    dining_room:
+      name: Dining Room
+      segment: 19
+      enable: input_boolean.vacuum_dining_room
+      dt: input_datetime.vacuumed_dining_room
+    rug:
+      name: Rug
+      segment: 21
+      enable: input_boolean.vacuum_rug
+      dt: input_datetime.vacuumed_rug
+  daily:
+    - kitchen
+    - dining_room
+    - living_room
+    - hallway
+
